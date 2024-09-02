@@ -5,15 +5,34 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 import { useLocation } from "react-router-dom";
 import OrderResult from "../../components/order/OrderResult.jsx";
+import axios from "axios";
+import { getUser } from "../../util/localStorage";
 
 export default function MyPageOrder() {
   const location = useLocation();
+  const userId = getUser().userId;
   const [activeButton, setActiveButton] = useState(1);
   const [activeDate, setActiveDate] = useState(3);
-  const [orderList, setOrderList] = useState([]);
+  const [cancleList, setcancleList] = useState([]);
+
+  useEffect(()=>{
+    axios({
+      method: "POST",
+      url: 'http://localhost:8080/order/canclelist',
+      data: { userId: userId }
+    }).then(result => {
+      console.log('API Response:', result.data);
+      setcancleList(Array.isArray(result.data) ? result.data : []);
+    }).catch(error => {
+      console.error("There was an error fetching the cancel list!", error);
+     
+    });
+  },[cancleList])
 
   const clickChange = (index) => {
     setActiveButton(index);
+    
+    console.log(cancleList);
   };
 
   const dateChange = (index) => {
@@ -29,13 +48,13 @@ export default function MyPageOrder() {
             className={`myorderbutton ${activeButton === 1 ? "active" : ""}`}
             onClick={() => clickChange(1)}
           >
-            주문내역 조회 (0건)
+            주문내역 조회 
           </button>
           <button
             className={`myorderbutton ${activeButton === 2 ? "active" : ""}`}
             onClick={() => clickChange(2)}
           >
-            취소/교환/반품 내역 (0건)
+            취소/교환/반품 내역 
           </button>
         </ul>
         {activeButton === 1 && (
@@ -92,7 +111,6 @@ export default function MyPageOrder() {
               <FontAwesomeIcon icon={faTriangleExclamation} /> 취소/교환/반품
               신청은 주문 완료일 기준 7일까지 가능합니다.
             </p>
-
             <OrderResult />
           </div>
         )}
@@ -131,12 +149,26 @@ export default function MyPageOrder() {
                 기간설정
               </button>
             </ul>
-
             <p className="myorderselect-warning-text">
               <FontAwesomeIcon icon={faTriangleExclamation} /> 취소/교환/반품
               신청은 주문 완료일 기준 7일까지 가능합니다.
             </p>
-            <p className="myorder-orderlist">취소/교환/반품 내역이 없습니다.</p>
+            {Array.isArray(cancleList) && cancleList.length === 0 ? (
+              <p className="myorder-orderlist">
+                취소/교환/반품 내역이 없습니다.
+              </p>
+            ) : (
+              <div>
+                <ul>
+               {
+                 cancleList.map((obj)=>(
+                      <li>{obj.order_number}</li>
+                  
+                ))
+              }
+              </ul>
+              </div>
+            )}
           </div>
         )}
       </div>

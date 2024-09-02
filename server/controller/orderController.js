@@ -18,7 +18,7 @@ export const getUserInfo = async (req, res) => {
 };
 
 export const list = async (req, res) => {
-  const { userId } = req.body;
+  const { userId } = req.body; 
 
   const result = await repository.list(userId);
   res.json(result);
@@ -33,7 +33,7 @@ export const detail = async (req, res) => {
 
 export const deleteOrder = async (req, res) => {
   const oid = req.body.oid;
-
+  console.log(oid);
   if (!oid) {
     return res.status(400).json({ error: "qid is required" });
   }
@@ -50,3 +50,19 @@ export const deleteOrder = async (req, res) => {
     res.status(500).json({ error: "Database error" });
   }
 };
+
+
+export const orderCancle = async(req,res) =>{
+  const orderInfo = req.body;
+  //console.log(orderInfo);
+  const cancleResult = await repository.orderCancle(orderInfo)
+  res.json(cancleResult)
+}
+
+export const orderCancleList = async(req,res) =>{
+  const cancleList = req.body;
+
+  const cancleResult = await repository.orderCancleList(cancleList)
+
+  res.json(cancleResult)
+}

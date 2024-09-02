@@ -148,13 +148,14 @@ body {
   width: 70px;
   height: 20px;
   margin: 15px 0;
+  gap:3rem;
 }
 
 .qna-content-btn .update,
 .qna-content-btn .delete {
-  margin-right: 5px;
-  padding-left: 7px;
-  padding-top: 4px;
+  margin-right: -31px;
+  padding-left: 8px;
+  padding-top: 1px;
   border: 1px solid #ccc;
   background: none;
 }
@@ -163,7 +164,7 @@ body {
   border: none;
   color: white;
   background-color: rgb(212, 94, 94);
-}
+} 
 
 /* * Qna Write */
 

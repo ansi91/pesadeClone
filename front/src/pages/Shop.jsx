@@ -8,7 +8,7 @@ export default function Shop() {
   const [filter, setFilter] = useState("all");
   const navigate = useNavigate();
 
-  const aname = ["jomalone", "pesade", "bvgari", "gucci", "dior"];
+  const aname = ["jomalone", "pesade", "bvgari", "gucci", "dior","byredo"];
 
   useEffect(() => {
     setFilter(category || "all");

@@ -9,5 +9,6 @@ router.get("/info/:userId", controller.getUserInfo);
 router.post("/list", controller.list);
 router.get("/order-detail/:oid", controller.detail);
 router.delete("/delete", controller.deleteOrder);
-
+router.post("/cancle",controller.orderCancle)
+router.post("/canclelist",controller.orderCancleList)
 export default router;

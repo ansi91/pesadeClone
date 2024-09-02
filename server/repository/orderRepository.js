@@ -127,3 +127,27 @@ export const deleteOrder = async (oid) => {
   const [result] = await db.execute(sql, [oid]);
   return result.affectedRows > 0;
 };
+
+export const orderCancle = async (orderInfo) => {
+  let result_rows = 0;
+  const params = [
+    orderInfo.order_number,
+    orderInfo.userId
+  ];
+
+  const sql =`insert into pesade_order_cancle(order_number, user_id) values(?, ?)`
+  try {
+    const [result] = await db.execute(sql, [params]);
+    result_rows = result.affectedRows;
+  } catch (error) {
+    console.log("Error in createOrder:", error);
+    throw error;
+  }
+
+  return { cnt: result_rows };
+};
+
+export const orderCancleList = async(cancleList)=>{
+
+  
+}

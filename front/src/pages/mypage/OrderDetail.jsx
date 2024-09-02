@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams,useLocation } from "react-router-dom";
 import axios from "axios";
 
 export default function OrderDetail() {
   const { oid } = useParams();
   const [orderdetails, setOrderdetails] = useState([]);
   const navigate = useNavigate();
-
+  const location = useLocation();
+  const { userId } = location.state || {};
   useEffect(() => {
     const url = `http://localhost:8080/order/order-detail/${oid}`;
     axios({
@@ -22,7 +23,16 @@ export default function OrderDetail() {
   }, [oid]);
 
   const handleDeleteOrder = () => {
-    console.log("hi");
+    const url2 = 'http://localhost:8080/order/cancle'
+    axios({
+      method:"POST",
+      url:url2,
+      data:{userId:userId,oid:oid}
+    }).then(result => {
+      if(result.data.cnt === 1){
+        
+      }})
+    
     const url = "http://localhost:8080/order/delete";
     axios({
       method: "delete",
